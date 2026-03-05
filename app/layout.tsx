@@ -14,6 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Mrs+Saint+Delafield&family=Pinyon+Script&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-screen bg-stage-black text-ivory antialiased">
         <div className="bg-stage-gradient min-h-screen">
           <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,249,235,0.24),_transparent_60%)]" />

@@ -8,8 +8,6 @@ interface CurtainIntroProps {
   children: React.ReactNode;
 }
 
-const STORAGE_KEY = "curtainPlayed";
-
 export function CurtainIntro({ children }: CurtainIntroProps) {
   const [showCurtain, setShowCurtain] = useState(false);
   const [ready, setReady] = useState(false);
@@ -20,8 +18,13 @@ export function CurtainIntro({ children }: CurtainIntroProps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const playedBefore = window.localStorage.getItem(STORAGE_KEY) === "true";
-    if (playedBefore || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    try {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    } catch {
+      // ignore
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setShowCurtain(false);
       setReady(true);
       return;
@@ -43,7 +46,7 @@ export function CurtainIntro({ children }: CurtainIntroProps) {
       defaults: { ease: "power2.inOut" },
       onComplete: () => {
         try {
-          window.localStorage.setItem(STORAGE_KEY, "true");
+          window.scrollTo({ top: 0, behavior: "auto" });
         } catch {
           // ignore
         }
@@ -51,7 +54,9 @@ export function CurtainIntro({ children }: CurtainIntroProps) {
           opacity: 0,
           duration: 0.8,
           ease: "power1.out",
-          onComplete: () => setShowCurtain(false),
+          onComplete: () => {
+            setShowCurtain(false);
+          },
         });
       },
     });
@@ -87,7 +92,7 @@ export function CurtainIntro({ children }: CurtainIntroProps) {
 
   const handleSkip = () => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, "true");
+      window.scrollTo({ top: 0, behavior: "auto" });
     } catch {
       // ignore
     }

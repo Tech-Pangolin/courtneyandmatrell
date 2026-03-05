@@ -4,7 +4,6 @@ import Image from "next/image";
 import { CurtainIntro } from "../components/CurtainIntro";
 import { InviteCodeForm } from "../components/InviteCodeForm";
 import { RegistrationForm } from "../components/RegistrationForm";
-import { SparkleImage } from "../components/SparkleImage";
 import { CanvasShimmer } from "../components/CanvasShimmer";
 import { useState } from "react";
 
@@ -79,102 +78,27 @@ export default function Home() {
           </div>
         </section>
 
-        <main className="relative mx-auto flex w-full max-w-5xl flex-col px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:px-8">
-          {/* Act I – Couple gallery, full-screen feel with staggered sparkles */}
-          <section className="flex min-h-[calc(100vh-5rem)] flex-col justify-center gap-8">
-          <div className="deco-card px-6 py-6 sm:px-8 sm:py-8">
-            <p className="deco-heading text-[0.62rem] text-[rgba(247,231,206,0.7)]">
-              Act I · The Couple
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold text-ivory sm:text-3xl">
-              A love story in three frames
-            </h2>
-            <p className="mt-3 text-sm text-[rgba(247,231,206,0.82)]">
-              From first curtain call to final bow, our story has been written in late‑night talks,
-              shared playlists, and quiet Charleston streets after the show. Here is a glimpse, in
-              three stills.
-            </p>
-
-            <div className="mt-5 space-y-4">
-              <SparkleImage
-                src="/images/maincouplephoto.png"
-                alt="The couple in a cinematic moment"
-                width={1600}
-                height={1000}
-                priority
-                index={0}
-                denseSparkles
-                sparkleDurationMs={2600}
-                containerClassName="w-full rounded-2xl border border-[rgba(247,231,206,0.28)] bg-black/60 shadow-[0_30px_80px_rgba(0,0,0,0.95)]"
-              />
-              <div className="grid gap-4 sm:grid-cols-2">
-                <SparkleImage
-                  src="/images/couplekiss.JPG"
-                  alt="The couple sharing a kiss"
-                  width={900}
-                  height={600}
-                  index={1}
-                  containerClassName="w-full rounded-xl border border-[rgba(247,231,206,0.24)] bg-black/60"
-                />
-                <SparkleImage
-                  src="/images/coupleout.JPG"
-                  alt="The couple walking together"
-                  width={900}
-                  height={600}
-                  index={2}
-                  containerClassName="w-full rounded-xl border border-[rgba(247,231,206,0.24)] bg-black/60"
-                />
-              </div>
-            </div>
-          </div>
-          </section>
-
-          {/* Act II – Invitation & RSVP, full-page */}
-          <section className="mt-14 flex min-h-screen flex-col gap-10 lg:flex-row">
-          <div className="deco-card deco-border relative flex-1 px-7 py-8 sm:px-9 sm:py-10">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-              <div className="relative h-40 w-full max-w-[180px] overflow-hidden rounded-xl border border-[rgba(247,231,206,0.28)] bg-black/60 sm:h-52">
+        <main className="relative mx-auto flex w-full max-w-5xl flex-col px-2 pb-16 pt-10 sm:px-3 sm:pb-20 sm:pt-14 lg:px-4">
+          {/* Invitation & RSVP, full-width section */}
+          <section
+            id="rsvp"
+            className="mt-14 w-full -mx-2 min-h-screen bg-transparent sm:-mx-3 lg:-mx-4"
+          >
+            {/* Full-width invitation artwork */}
+            <div className="w-full">
+              <div className="mx-auto max-w-4xl px-2 pb-10 pt-6 sm:px-3 lg:px-4">
                 <Image
                   src="/images/invitationdesign.png"
-                  alt="Champagne and gold Art Deco invitation design"
-                  fill
-                  className="object-cover"
+                  alt="Champagne and gold Art Deco save the date invitation"
+                  width={768}
+                  height={1152}
+                  className="h-auto w-full object-contain"
+                  priority
                 />
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(247,231,206,0.2),_transparent_60%)]" />
-              </div>
-
-              <div className="flex-1">
-                <p className="deco-heading text-xs text-[rgba(247,231,206,0.7)]">
-                  Act II · Your Invitation
-                </p>
-                <h1 className="mt-3 text-3xl font-semibold leading-tight text-ivory sm:text-4xl">
-                  An evening in three acts:
-                  <br />
-                  love, devotion, and a city of lights.
-                </h1>
-                <p className="mt-4 max-w-xl text-sm text-[rgba(247,231,206,0.82)] sm:text-base">
-                  On August 8, 2026, in the heart of Charleston, a private theatre opens its doors
-                  for one night only. Behind the curtain: champagne, vows, and the people who made
-                  the story possible.
-                </p>
-                <p className="mt-4 text-sm text-[rgba(247,231,206,0.7)]">
-                  This celebration is by invitation only. Your three‑digit code is your key to the
-                  evening.
-                </p>
-                <button
-                  type="button"
-                  className="btn-primary mt-6"
-                  onClick={() => {
-                    const section = document.getElementById("rsvp");
-                    if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                >
-                  RSVP &amp; Enter
-                </button>
               </div>
             </div>
 
-            <div className="mt-8 grid gap-6 border-t border-[rgba(247,231,206,0.12)] pt-6 text-sm text-[rgba(247,231,206,0.78)] sm:grid-cols-3">
+            <div className="mx-auto mt-6 grid max-w-5xl gap-6 border-t border-[rgba(247,231,206,0.12)] pt-6 text-sm text-[rgba(247,231,206,0.78)] sm:grid-cols-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-[rgba(247,231,206,0.6)]">
                   Date
@@ -197,30 +121,29 @@ export default function Home() {
                 <p className="mt-1">Black‑tie, with a hint of theatre.</p>
               </div>
             </div>
-          </div>
 
-          <aside
-            id="rsvp"
-            className="relative w-full max-w-md flex-1 rounded-[1.4rem] bg-black/30 px-1 py-1 backdrop-blur-xl"
-          >
-            <div className="deco-card h-full w-full px-5 py-5 sm:px-6 sm:py-6">
-              <p className="deco-heading text-[0.62rem] text-[rgba(247,231,206,0.7)]">
-                Private theatre entry
-              </p>
-              <h2 className="mt-3 text-xl font-semibold text-ivory">RSVP &amp; Entry</h2>
-              <p className="mt-2 text-sm text-[rgba(247,231,206,0.8)]">
-                Begin by confirming your invitation code. Once accepted, your registration and
-                private details will appear.
-              </p>
+            {/* RSVP & Private Entry card, separate beneath Act II */}
+            <div className="mx-auto mt-10 w-full max-w-5xl rounded-[1.4rem] bg-black/30 p-[1px] backdrop-blur-xl">
+              <div className="deco-card h-full w-full px-5 py-5 sm:px-6 sm:py-6">
+                <p className="deco-heading text-[0.62rem] text-[rgba(247,231,206,0.7)]">
+                  Private theatre entry
+                </p>
+                <h2 className="mt-3 text-xl font-semibold text-ivory">
+                  RSVP &amp; Private Entry
+                </h2>
+                <p className="mt-2 text-sm text-[rgba(247,231,206,0.8)]">
+                  Begin by confirming your invitation code. Once accepted, your registration and
+                  private details will appear.
+                </p>
 
-              <InviteCodeForm onVerified={() => setInviteVerified(true)} />
+                <InviteCodeForm onVerified={() => setInviteVerified(true)} />
 
-              <RegistrationForm inviteVerified={inviteVerified} />
+                <RegistrationForm inviteVerified={inviteVerified} />
+              </div>
             </div>
-          </aside>
           </section>
 
-          {/* Act III – Celebrate / Gift section, full-page */}
+          {/* Celebrate / Gift section, full-page */}
           <section className="mt-20 flex min-h-screen items-center">
           <div className="deco-card w-full px-6 py-6 sm:px-8 sm:py-8">
             <p className="deco-heading text-[0.62rem] text-[rgba(247,231,206,0.7)]">
