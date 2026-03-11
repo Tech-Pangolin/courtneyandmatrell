@@ -61,7 +61,7 @@ export default function Home() {
             loop
             playsInline
           >
-            <source src="/video/intro.MP4" type="video/mp4" />
+            <source src="https://dev.cojollc.com/cm.MP4" type="video/mp4" />
           </video>
 
           {/* Shimmer overlays on left and right, leaving middle 400px clear */}
