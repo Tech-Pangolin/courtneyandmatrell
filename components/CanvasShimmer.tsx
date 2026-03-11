@@ -18,9 +18,10 @@ interface CanvasShimmerProps {
    * values > 1 create more twinkles for hero moments.
    */
   density?: number;
+  className?: string;
 }
 
-export function CanvasShimmer({ active, density = 1 }: CanvasShimmerProps) {
+export function CanvasShimmer({ active, density = 1, className }: CanvasShimmerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationRef = useRef<number | null>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -77,8 +78,8 @@ export function CanvasShimmer({ active, density = 1 }: CanvasShimmerProps) {
       for (const p of particlesRef.current) {
         ctx.beginPath();
         const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 4);
-        gradient.addColorStop(0, `rgba(247, 231, 206, ${p.alpha})`);
-        gradient.addColorStop(1, "rgba(247, 231, 206, 0)");
+        gradient.addColorStop(0, `rgba(226, 228, 240, ${p.alpha})`);
+        gradient.addColorStop(1, "rgba(226, 228, 240, 0)");
         ctx.fillStyle = gradient;
         ctx.arc(p.x, p.y, p.radius * 4, 0, Math.PI * 2);
         ctx.fill();
@@ -107,7 +108,7 @@ export function CanvasShimmer({ active, density = 1 }: CanvasShimmerProps) {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      className={`pointer-events-none ${className ?? "absolute inset-0 h-full w-full"}`}
       aria-hidden="true"
     />
   );

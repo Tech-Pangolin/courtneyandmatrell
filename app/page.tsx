@@ -14,17 +14,17 @@ export default function Home() {
     <CurtainIntro>
       <div className="flex min-h-screen flex-col">
         {/* Top navigation bar */}
-        <nav className="relative z-20 border-b border-[rgba(247,231,206,0.12)] bg-black/70 backdrop-blur-xl">
+        <nav className="nav-montserrat relative z-20 border-b border-[rgba(247,231,206,0.12)] bg-black">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(247,231,206,0.5)] bg-black/40 text-[0.65rem] font-semibold tracking-[0.3em] text-[rgba(247,231,206,0.85)]">
-                CJ
+              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[rgba(247,231,206,0.5)] bg-black/40 text-xs font-bold tracking-[0.15em] text-[rgba(247,231,206,0.85)]">
+                C &amp; M
               </div>
-              <span className="hidden text-xs text-[rgba(247,231,206,0.75)] sm:block">
+              <span className="hidden text-sm font-bold text-[rgba(247,231,206,0.85)] sm:block">
                 The Curtain Rises · Charleston · 08 · 08 · 26
               </span>
             </div>
-            <div className="flex items-center gap-6 text-[0.7rem] uppercase tracking-[0.2em] text-[rgba(247,231,206,0.8)]">
+            <div className="flex items-center gap-6 text-sm font-bold uppercase tracking-[0.2em] text-[rgba(247,231,206,0.9)]">
               <button type="button" className="hover:text-ivory">
                 Home
               </button>
@@ -51,22 +51,40 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Full-width hero with main couple photo */}
+        {/* Full-height hero with video intro and shimmer flanking center 400px */}
         <section className="relative flex h-screen w-full items-center justify-center overflow-hidden border-b border-[rgba(247,231,206,0.14)] bg-black">
-          <Image
-            src="/images/maincouplephoto.png"
-            alt="The couple in a cinematic hero moment"
-            fill
-            priority
-            className="object-contain"
-          />
-          <CanvasShimmer active density={2.8} />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(11,6,8,0.05),_rgba(11,6,8,0.55))]" />
+          {/* Video fills hero */}
+          <video
+            className="max-h-full w-full object-contain"
+            autoPlay
+            muted
+            loop
+            playsInline
+          >
+            <source src="/video/intro.MP4" type="video/mp4" />
+          </video>
 
+          {/* Shimmer overlays on left and right, leaving middle 400px clear */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 hidden md:block"
+            style={{ width: "calc((100vw - 400px) / 2)" }}
+          >
+            <CanvasShimmer active density={1.6} className="h-full w-full" />
+          </div>
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 hidden md:block"
+            style={{ width: "calc((100vw - 400px) / 2)" }}
+          >
+            <CanvasShimmer active density={1.6} className="h-full w-full -scale-x-100" />
+          </div>
+
+          {/* Subtle radial/vertical gradients over full hero */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(11,6,8,0.05),_rgba(11,6,8,0.55))]" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#0b0608] via-[rgba(11,6,8,0.65)] to-transparent" />
 
-          <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 text-center">
-            <p className="deco-heading text-xs text-[rgba(247,231,206,0.78)]">
+          {/* Hero text overlay centered over video */}
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-end pb-12 text-center">
+            <p className="deco-heading text-xs text-[rgba(247,231,206,0.88)]">
               The Curtain Rises
             </p>
             <h1 className="mt-3 text-3xl font-semibold text-ivory sm:text-4xl md:text-5xl">
@@ -78,21 +96,21 @@ export default function Home() {
           </div>
         </section>
 
-        <main className="relative mx-auto flex w-full max-w-5xl flex-col px-2 pb-16 pt-10 sm:px-3 sm:pb-20 sm:pt-14 lg:px-4">
+        <main className="relative mx-auto flex w-full max-w-5xl flex-col px-2 pb-16 pt-10 invitation-section-bg sm:px-3 sm:pb-20 lg:px-4">
           {/* Invitation & RSVP, full-width section */}
           <section
             id="rsvp"
-            className="mt-14 w-full -mx-2 min-h-screen bg-transparent sm:-mx-3 lg:-mx-4"
+            className="nav-montserrat mt-14 w-full min-h-screen"
           >
-            {/* Full-width invitation artwork */}
-            <div className="w-full">
-              <div className="mx-auto max-w-4xl px-2 pb-10 pt-6 sm:px-3 lg:px-4">
+            {/* Full-height invitation artwork */}
+            <div className="w-full h-screen flex items-center justify-center">
+              <div className="mx-auto h-full max-w-4xl px-2 pt-6 sm:px-3 lg:px-4">
                 <Image
-                  src="/images/invitationdesign.png"
+                  src="/images/invitationdesign-v2.png"
                   alt="Champagne and gold Art Deco save the date invitation"
                   width={768}
                   height={1152}
-                  className="h-auto w-full object-contain"
+                  className="mx-auto h-full w-auto max-w-full object-contain"
                   priority
                 />
               </div>
