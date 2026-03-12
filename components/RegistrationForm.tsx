@@ -135,7 +135,7 @@ export function RegistrationForm({
       <div className="mt-8 deco-card px-6 py-7 sm:px-8">
         <h3 className="text-lg font-semibold sparkle-text">You’re in.</h3>
         <p className="mt-2 text-sm text-[rgba(247,231,206,0.82)]">
-          Thank you for sharing this moment with us. Your RSVP details have been recorded.
+          Thank you for sharing this moment with us. Your RSVP details have been recorded and the location details have been revealed.
         </p>
       </div>
     );

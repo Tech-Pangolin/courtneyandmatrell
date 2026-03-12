@@ -20408,3 +20408,33 @@ This aligns with `RouteHandlerConfig<"/api/rsvp/[id]">`, so you can rerun `npm r
 
 ---
 
+_**User (2026-03-12 12:32Z)**_
+
+I'm getting a db connection error:  Connection error MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+
+What should i add to my whitelist so that my vercel url can access my db?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+**Explaining IP whitelisting for Atlas**
+
+I need to explain how to whitelist IPs for Atlas while using Vercel. You can either allow access from all (0.0.0.0/0) or prefer Vercel's IP ranges, which are dynamic. It's better to set up 0.0.0.0/0 with strong credentials and SRV TLS for security. In the Atlas UI, go to Network Access -> IP Access List, and add the required IP. If you use Vercel, consider the Vercel integration for simpler management.</details></think>
+
+---
+
+On MongoDB Atlas you can’t reliably whitelist a single fixed IP for Vercel, because Vercel’s serverless functions use **dynamic outbound IPs**.
+
+For your current setup, do this:
+
+- In Atlas, go to **Network Access → IP Access List**.
+- Click **“Add IP Address”** and choose **“Allow access from anywhere”**.
+- This adds the CIDR: **`0.0.0.0/0`**  
+- Save, wait ~1–2 minutes for it to propagate, then redeploy / retry your Vercel build.
+
+This will let your Vercel deployment (and your local machine) reach the cluster; just be sure your MongoDB user has a strong password and that `MONGODB_URI` is only stored in environment variables (never committed to Git).
+
+---
+

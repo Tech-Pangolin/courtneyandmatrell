@@ -38,7 +38,7 @@ export default function Home() {
       const rect = section.getBoundingClientRect();
       const offset = window.scrollY + rect.top - 80;
       window.scrollTo({ top: offset, behavior: "smooth" });
-    }, 3000);
+    }, 2000);
   };
 
   const handleAttendingConfirmed = async () => {
@@ -238,11 +238,13 @@ export default function Home() {
                 <p className="text-xs uppercase tracking-[0.18em] text-[rgba(247,231,206,0.6)]">
                   City
                 </p>
-                <p className="mt-1">Charleston, South Carolina</p>
-                {!venueVisible && (
+               
+                {!venueVisible && (<>
                   <p className="mt-0.5 text-[0.78rem] text-[rgba(247,231,206,0.6)]">
                     Venue details revealed after login.
-                  </p>
+                  </p> 
+                  <p className="mt-1">Charleston, South Carolina</p>
+                  </>
                 )}
                 {venueVisible && venueText && (
                   <p className="mt-0.5 text-[0.78rem] text-[rgba(247,231,206,0.9)] transition-all duration-700 ease-out opacity-100 translate-y-0">
