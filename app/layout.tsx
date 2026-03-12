@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "The Curtain Rises – A Celebration of Love",
+  title: "A Celebration of Love – Charleston 2026",
   description:
-    "An intimate, cinematic wedding experience in Charleston, South Carolina. The curtain rises on August 8, 2026.",
+    "An intimate, cinematic wedding experience in Charleston, South Carolina. A celebration of love on August 8, 2026.",
 };
 
 export default function RootLayout({
