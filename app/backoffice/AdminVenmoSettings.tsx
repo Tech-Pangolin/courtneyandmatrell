@@ -14,7 +14,7 @@ export function AdminVenmoSettings() {
         if (!res.ok) return;
         const data = (await res.json()) as { venmoHandle?: string };
         if (data.venmoHandle) {
-          setVenmoHandle(data.venmoHandle.startsWith("@") ? data.venmoHandle : `@${data.venmoHandle}`);
+          setVenmoHandle(data.venmoHandle);
         }
       } catch {
         // ignore
