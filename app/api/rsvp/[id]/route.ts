@@ -1,12 +1,14 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { connectMongo } from "../../../../lib/mongodb";
 import { RsvpModel } from "../../../../models/Rsvp";
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   await connectMongo();
+  const { id } = await context.params;
 
   let body: unknown;
   try {
@@ -27,7 +29,7 @@ export async function PATCH(
   if (typeof attendees === "number" && attendees >= 0) update.attendees = attendees;
 
   try {
-    const doc = await RsvpModel.findByIdAndUpdate(params.id, update, {
+    const doc = await RsvpModel.findByIdAndUpdate(id, update, {
       new: true,
       runValidators: true,
     }).lean();
@@ -44,12 +46,13 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   await connectMongo();
+  const { id } = await context.params;
   try {
-    const res = await RsvpModel.findByIdAndDelete(params.id).lean();
+    const res = await RsvpModel.findByIdAndDelete(id).lean();
     if (!res) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
