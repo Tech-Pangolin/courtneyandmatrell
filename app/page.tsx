@@ -236,8 +236,6 @@ export default function Home() {
             </div>
           </section>
 
-          <RoomBlockSection />
-
           {/* RSVP section */}
           <section id="rsvp" className="nav-montserrat w-full min-h-screen">
             <div
@@ -262,6 +260,8 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          <RoomBlockSection />
 
           {/* Celebrate / Gift section, full-page */}
           <section id="gift" className="mt-10 flex items-center">
