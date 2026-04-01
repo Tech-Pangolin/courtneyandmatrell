@@ -333,16 +333,7 @@ export default function Home() {
                 A few favorite moments leading up to the celebration.
               </p>
 
-              <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-                <div className="overflow-hidden rounded-2xl border border-[rgba(247,231,206,0.25)] bg-black/60">
-                  <Image
-                    src="/images/couplekiss.JPG"
-                    alt="The couple sharing a kiss"
-                    width={600}
-                    height={800}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+              <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
                 <div className="overflow-hidden rounded-2xl border border-[rgba(247,231,206,0.25)] bg-black/60">
                   <Image
                     src="/images/maincouplephoto.png"
