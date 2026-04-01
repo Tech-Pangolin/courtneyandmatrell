@@ -18,7 +18,8 @@ export function RegistrationForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneDigits, setPhoneDigits] = useState("");
-  const [attendees, setAttendees] = useState(1);
+  /** String state so mobile keyboards can edit digits without `type="number"` quirks (esp. iOS Safari). */
+  const [attendeesInput, setAttendeesInput] = useState("1");
   const [rsvpStatus, setRsvpStatus] = useState<"attending" | "not_attending">("attending");
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -53,8 +54,14 @@ export function RegistrationForm({
     const hasEmail = !!email.trim();
     const hasPhone = rawPhone.length > 0;
     const phoneValid = !hasPhone || rawPhone.length === 10;
+    const attendeeDigits = attendeesInput.replace(/\D/g, "");
+    const attendeeParsed = parseInt(attendeeDigits || "1", 10);
+    const attendeeCount = Math.min(
+      10,
+      Math.max(1, Number.isNaN(attendeeParsed) ? 1 : attendeeParsed)
+    );
     const attendeesValid =
-      rsvpStatus === "not_attending" || (Number.isFinite(attendees) && attendees >= 1);
+      rsvpStatus === "not_attending" || (Number.isFinite(attendeeCount) && attendeeCount >= 1);
 
     if (!trimmedName || !nameValid) {
       setError("Please enter your full name using letters only.");
@@ -92,7 +99,7 @@ export function RegistrationForm({
           name: trimmedName,
           email: email.trim() || undefined,
           phone: hasPhone ? rawPhone : undefined,
-          attendees: rsvpStatus === "attending" ? attendees : 0,
+          attendees: rsvpStatus === "attending" ? attendeeCount : 0,
           rsvpStatus,
           note: note?.trim() || undefined,
         }),
@@ -229,22 +236,33 @@ export function RegistrationForm({
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-medium uppercase tracking-[0.18em] text-[rgba(247,231,206,0.7)]">
+          <div className="relative z-10 min-w-0">
+            <label
+              htmlFor="rsvp-attendees"
+              className="block text-xs font-medium uppercase tracking-[0.18em] text-[rgba(247,231,206,0.7)]"
+            >
               Number of Attendees
             </label>
             <input
-              type="number"
-              min={1}
-              max={10}
-              className="mt-1 w-24 rounded-lg border border-[rgba(247,231,206,0.35)] bg-black/40 px-3 py-2 text-sm text-ivory outline-none ring-0 transition focus:border-[rgba(247,231,206,0.9)] focus:bg-black/60"
-              value={attendees}
+              id="rsvp-attendees"
+              name="attendees"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              enterKeyHint="done"
+              className="mt-1 w-full min-h-11 max-w-[8rem] rounded-lg border border-[rgba(247,231,206,0.35)] bg-black/40 px-3 py-2.5 text-base text-ivory outline-none ring-0 transition focus:border-[rgba(247,231,206,0.9)] focus:bg-black/60 sm:w-24 sm:min-h-0 sm:max-w-none sm:py-2 sm:text-sm"
+              value={attendeesInput}
               onChange={(e) => {
-                const n = parseInt(e.target.value || "1", 10);
-                if (Number.isNaN(n)) {
-                  setAttendees(1);
+                const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
+                setAttendeesInput(raw);
+              }}
+              onBlur={() => {
+                const n = parseInt(attendeesInput, 10);
+                if (attendeesInput === "" || Number.isNaN(n) || n < 1) {
+                  setAttendeesInput("1");
                 } else {
-                  setAttendees(Math.min(10, Math.max(1, n)));
+                  setAttendeesInput(String(Math.min(10, n)));
                 }
               }}
             />

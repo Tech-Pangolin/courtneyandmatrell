@@ -2610,4 +2610,690 @@ Order in file:
 1. couplekiss.JPG
 2. maincouplephoto.png
 3. coupleout.JPG
-4.
+4. coupletree.JPG
+
+First photo = couplekiss.JPG - remove that block.
+
+Update grid: 3 photos → `grid-cols-2 lg:grid-cols-3` works well (2+1 on mobile, 3 in a row on lg).
+`</think>`
+Removing the first image (`couplekiss.JPG`) and adjusting the grid for three photos.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\page.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Verify the structure - I need to make sure the first remaining div still has opening tag properly. Let me read the file around that area.
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\page.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Good - the first photo (couplekiss) was removed. Grid is now 3 columns on lg, 2 on smaller - for 3 items on mobile we get 2+1 which is fine.
+
+Read lints
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell\\app\\page.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell\\app\\page.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Done
+</details></think>
+
+_**Agent (default)**_
+
+
+The first image (`/images/couplekiss.JPG`) is removed from the Photos grid.
+
+The section now shows three images in order: **main couple photo**, **couple out**, and **coupletree**. The layout class is updated from `lg:grid-cols-4` to **`lg:grid-cols-3`** so the row stays balanced on wide screens.
+
+---
+
+_**User**_
+
+Please add this blurb centered italicized somewhere above the RSVP section:  Courtney and Matrell privately exchanged vows and are now looking forward to celebrating their marriage surrounded by the people they love most
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user wants to add a centered, italicized blurb above the RSVP section. I need to read page.tsx to find where the RSVP section starts and insert the blurb before it, likely after the event-info section or before the RSVP section opening tag.
+
+Let me read the relevant part of page.tsx.
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\page.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+I'll add a centered, italicized blurb between the closing `</section>` of event-info and the RSVP section `{/* RSVP section */}`. I'll use:
+- `text-center italic`
+- `max-w-2xl mx-auto` for readable line length
+- `nav-montserrat` to match
+- Appropriate text color matching the site
+- `mt-8` or `mt-10` for spacing from event-info, `mb-` before RSVP
+
+Text: "Courtney and Matrell privately exchanged vows and are now looking forward to celebrating their marriage surrounded by the people they love most"
+
+I'll use ampersand for Courtney & Matrell like elsewhere in the site - the user said "Courtney and Matrell" - I'll use the exact wording they gave with "and" unless the site consistently uses & - the user wrote "Courtney and Matrell" so I'll keep that.
+
+Actually the site uses "Courtney & Matrell" in hero - user explicitly said "Courtney and Matrell" - I'll follow user's exact wording.
+
+I'll add:
+```tsx
+          <p className="nav-montserrat mx-auto mt-10 max-w-2xl px-4 text-center text-sm italic leading-relaxed text-[rgba(247,231,206,0.82)]">
+            Courtney and Matrell privately exchanged vows and are now looking forward to celebrating
+            their marriage surrounded by the people they love most
+          </p>
+```
+
+Or use a semantic element - `<blockquote>` or just `<p>`. A simple `<p>` is fine.
+
+I'll insert between event-info closing and RSVP section.
+</details></think>
+
+_**Agent (default)**_
+
+
+Adding a centered, italic blurb between the event-info section and the RSVP section.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\page.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+User's message didn't have a period at the end - I added one for sentence completeness. They said: "...people they love most" - I'll check if they wanted no period. I'll remove period if they had none - they ended with "most" without period. I'll keep the period as standard prose.
+
+Read lints
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell\\app\\page.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell\\app\\page.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Done. Summarize briefly.
+</details></think>
+
+_**Agent (default)**_
+
+
+Inserted the blurb **between** the event details block and the RSVP block.
+
+- **Styling:** `text-center`, `italic`, `nav-montserrat`, `max-w-2xl mx-auto`, `px-4`, champagne-toned text, `mt-10` under the event-info section.
+- **Copy:** Ends with a period; say if you want that removed.
+
+The RSVP card still has its own `mt-10`, so spacing between the blurb and the card should look balanced.
+
+---
+
+_**User**_
+
+from the mobile view the user cannot enter the number of attendees, can you fix this please?
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is having an issue with the mobile view where they cannot enter the number of attendees. This is likely in the RegistrationForm component. I need to read that file and understand what might be blocking mobile input - could be z-index, overflow hidden, touch issues, input type, readonly, pointer-events, min-h-screen overlay, etc.
+
+Let me read RegistrationForm.tsx and related styles.
+</details></think>
+
+_**Agent (default)**_
+
+
+Inspecting `RegistrationForm` for guest-count controls and anything that could block mobile input.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+The number input has `type="number"` with `value={attendees}`. On mobile, there are several known issues:
+
+1. **iOS Safari** with `type="number"` - sometimes the spinner/stepper behavior or validation blocks editing when the value is controlled.
+
+2. **The main bug could be**: When user tries to clear the field to type a new number, `parseInt(e.target.value || "1", 10)` immediately sets to 1 when empty - so they can't clear the field. But that would affect desktop too.
+
+3. **Mobile-specific**: `input type="number"` on iOS can be problematic - `inputMode="numeric"` on `type="text"` often works better for attendee counts.
+
+4. **Grid layout**: On mobile `grid gap-5 md:grid-cols-2` - the Phone and Number of Attendees are in two columns on md only, so on mobile they stack in a single column. That should be fine.
+
+5. **Overlay / pointer-events**: Could CurtainIntro or something be capturing touches? Let me check page.tsx for RSVP section - rsvp-card, min-h-screen was possibly removed.
+
+6. **Z-index**: Maybe something covers the input on mobile only?
+
+7. **width w-24**: Small input - might be hard to tap but shouldn't prevent entry entirely.
+
+8. **Known iOS issue**: For `type="number"`, if `min={1}` is set, some browsers don't allow clearing. The onChange maps empty to 1 immediately - **when user selects all and deletes**, e.target.value might be "" and parseInt("" || "1") = 1 - so they get 1. When trying to type "2" for "12", if they delete "1" from "1", value becomes empty briefly... Actually the issue is: **controlled input with value={attendees}** - when attendees is 1, and user tries to type "2" to make "12", they might need to clear first. If they clear, onChange fires with "" - `parseInt("1", 10)` from `e.target.value || "1"` = actually `parseInt("" || "1", 10)` = parseInt("1", 10) = 1. So the field never becomes empty - OK.
+
+Actually typing "2" when value is 1: they'd replace - if they select all and type 2, value is "2", attendees becomes 2. Good.
+
+**iOS Safari number input bug**: Sometimes the number input doesn't focus properly or the virtual keyboard doesn't appear when inside overflow/transform containers.
+
+Let me read CurtainIntro and the RSVP section in page.tsx for overflow hidden, transform, touch-action, etc.
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\CurtainIntro.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\page.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+CurtainIntro has `overflow-hidden` on the outer wrapper `relative min-h-screen overflow-hidden`. This can cause issues with fixed positioning children but RSVP is inside children. **overflow-hidden on a parent can break `position: fixed` modals** but not necessarily inputs.
+
+Actually on mobile Safari, **overflow: hidden on an ancestor** combined with fixed elements can sometimes cause focus issues. Less common for plain inputs.
+
+Another issue: **`type="number"`** on iOS - the spinner UI can be finicky. Also **autocomplete** and **font-size less than 16px** triggers iOS zoom on focus - but that doesn't block input.
+
+The **real common bug**: `input type="number"` with controlled value - when user tries to enter a number, on some Android browsers **e.target.value** for intermediate states might be invalid.
+
+Better fix: Use **text input with inputMode="numeric" pattern** or allow string state for attendees during editing:
+
+```tsx
+const [attendeesInput, setAttendeesInput] = useState("1");
+
+// Or use local string state that only commits on blur
+```
+
+Actually re-read the user message: "cannot enter the number of attendees" - could mean:
+1. Literally can't type in the field
+2. The field is not visible / off screen
+3. Something blocks touches
+
+**Layout theory**: On mobile, the form is `grid gap-5` single column. Order:
+- RSVP details header
+- Attendance buttons
+- Name
+- Email
+- Phone (if attending)
+- Number of Attendees (if attending)
+
+Wait - Phone and Attendees are in a fragment `<>` with two `<div>` siblings. In a CSS grid with one column, they stack. Good.
+
+**Could the issue be `opacity-0`** on the form until fadeIn? If fadeIn is true when invite verified, opacity goes to 100. But **pointer-events** - does opacity-0 block clicks? Elements with opacity-0 typically still receive pointer events unless pointer-events-none! So when fading in, if there's a flash of opacity-0... Actually after fadeIn is true, opacity is 100.
+
+**Could `deco-card` have something**? From globals - `text-align: center` - inputs might look odd but work.
+
+**InviteCodeForm** - could it leave something that overlays?
+
+Let me read InviteCodeForm
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\InviteCodeForm.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Let me grep for invite-input in globals.css - there might be overflow or positioning that affects siblings... Actually InviteCodeForm is a sibling before RegistrationForm, not overlapping.
+
+**iOS `type="number"` issue**: Many sources say to use `inputMode="numeric"` with type="text" for better mobile UX. Also the **stepper on iOS** for number inputs can steal focus or be hard to use.
+
+Another issue: **`value={attendees}`** where attendees is number - React might pass `value={1}` and on some mobile browsers when you tap the field, the caret behavior with number type is broken.
+
+I'll implement:
+1. Change to `type="text"` with `inputMode="numeric"` and `pattern="[0-9]*"` for iOS numeric keypad
+2. Use string state OR handle parseInt more carefully allowing empty during edit
+
+Actually the classical fix is:
+```tsx
+const [attendeesStr, setAttendeesStr] = useState("1");
+
+onChange={(e) => {
+  const v = e.target.value.replace(/\D/g, "");
+  if (v === "") {
+    setAttendeesStr("");
+    // or keep showing empty while typing
+  } else {
+    const n = parseInt(v, 10);
+    if (!Number.isNaN(n)) {
+      setAttendeesStr(String(Math.min(10, Math.max(1, n))));
+    }
+  }
+}}
+```
+
+But that's complex. Simpler approach:
+- `inputMode="numeric"` 
+- `type="text"` 
+- `autoComplete="off"`
+- `value={String(attendees)}` - wait, when user clears we need intermediate state
+
+Let me use **attendeesInput as string**:
+```tsx
+const [attendeesInput, setAttendeesInput] = useState("1");
+
+// Sync from attendees when rsvp changes to attending from not
+useEffect(() => {
+  if (rsvpStatus === "attending") {
+    setAttendeesInput(String(attendees));
+  }
+}, [rsvpStatus]);
+
+onChange={(e) => {
+  const raw = e.target.value.replace(/\D/g, "");
+  if (raw === "") {
+    setAttendeesInput("");
+    setAttendees(1); // or keep last valid
+    return;
+  }
+  const n = parseInt(raw, 10);
+  if (Number.isNaN(n)) return;
+  const clamped = Math.min(10, Math.max(1, n));
+  setAttendees(clamped);
+  setAttendeesInput(raw.length > String(clamped).length ? raw : String(clamped));
+}}
+```
+
+Actually simpler: use **uncontrolled** with key reset... no that's messy.
+
+**Simplest fix** that fixes most mobile issues:
+1. `type="text"` `inputMode="numeric"` `pattern="\d*"` `autoComplete="off"`
+2. `value={attendees}` - when displaying number, for empty edge case use `"1"` when focusing...
+
+Actually the issue with controlled number input: on iOS, value `1` when user taps and deletes to type `2` for `12`:
+- After delete field shows empty briefly - onChange with "" -> current code does `parseInt("" || "1", 10)` = 1 - **field jumps back to 1** before they can type 2. So they **cannot type two-digit numbers** like 10 if the logic resets!
+
+Wait for "12": start with 1. User selects all, types 1 - OK. Types 2 after 1: value "12", parseInt 12, clamp max 10 -> **attendees becomes 10** not 12. OK for max 10.
+
+For typing "10": start 1. User adds 0 -> "10" works.
+
+For typing "3" from "1": user puts cursor after 1, types 3... value "13" -> clamp to 10. OK.
+
+For **two digit entry from scratch**: User clears (if possible). If they select all and delete, value "" -> code sets attendees to 1 (parseInt ""||"1"). So **they can't get empty field** - good.
+
+User selects all, types "5" - works.
+
+**The bug**: User wants to change from 1 to 8. They tap field, keyboard shows. On **iOS number pad**, sometimes the **increment/decrement** controls appear and the **inner value** doesn't update from typing?
+
+Let me try **text + inputMode numeric** which avoids native number picker quirks.
+
+Also add **`min-h` or `text-base` (16px)** to prevent iOS zoom: `text-base` on inputs - the form uses `text-sm` which is often 14px - **iOS Safari zooms the page when focusing inputs with font-size < 16px**, which can **push layout** and make it seem like "can't enter" - user loses context or the viewport jumps badly. Fix: **`text-base` (16px) minimum on mobile for inputs** or use `font-size: 16px` in class.
+
+I'll apply:
+1. Replace number input with text + inputMode="numeric" + pattern for digit validation
+2. Add `text-base` to the attendees (and possibly all RSVP inputs for consistency on mobile)
+
+Let me check Tailwind - `text-base` is 1rem. The html has font-size 150% so rem might already be large... `html { font-size: 150% !important; }` - so 1rem is already 24px effectively? Actually rem is relative to root - if root is 150%, then 1rem = 16px * 1.5 = 24px typically. So text-sm might be 14px * 1.5? This is confusing.
+
+In Tailwind v4, text-sm is often 0.875rem from root. If root html is 150%, the computed size is larger. The iOS zoom typically triggers when **computed** font size < 16px. I'll add `text-base md:text-sm` or just bump the attendees input to `text-base`.
+
+3. Make the attendees field **w-full min-w-0** on mobile for easier tap target: `w-full sm:w-24` instead of `w-24`
+
+Let me implement:
+```tsx
+<input
+  type="text"
+  inputMode="numeric"
+  pattern="[0-9]*"
+  autoComplete="off"
+  name="attendees"
+  id="rsvp-attendees"
+  className="mt-1 w-full min-h-11 min-w-0 rounded-lg border ... sm:max-w-[6rem] sm:w-24 text-base sm:text-sm"
+  value={attendeesInput}
+  onChange={(e) => {
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
+    if (raw === "") {
+      setAttendeesInput("");
+      return;
+    }
+    const n = parseInt(raw, 10);
+    if (Number.isNaN(n)) return;
+    const clamped = Math.min(10, Math.max(1, n));
+    setAttendees(clamped);
+    setAttendeesInput(String(clamped));
+  }}
+  onBlur={() => {
+    if (attendeesInput === "" || !Number.isFinite(attendees) || attendees < 1) {
+      setAttendees(1);
+      setAttendeesInput("1");
+    }
+  }}
+/>
+```
+
+We need **attendeesInput** state synchronized with **attendees**. On mount and when switching to attending, attendeesInput should be String(attendees).
+
+Actually when we use onChange with clamped value, typing "0" after "1" to make "10":
+- User has "1", types "0" -> raw "10" -> clamped 10 -> display "10" ✓
+
+User clears field -> attendeesInput "" -> on submit we need to validate - onBlur reset to 1.
+
+When raw is "" we don't update attendees in onChange - keep last attendees for submit until blur. Actually on submit, attendees might still be old value while input shows "" - **validate attendees from input on submit** or on blur fix.
+
+I'll add:
+```tsx
+const [attendees, setAttendees] = useState(1);
+const [attendeesInput, setAttendeesInput] = useState("1");
+```
+
+When attendees changes programmatically (we don't have that), only from input.
+
+Actually simpler - **single source of truth string**:
+```tsx
+const [attendeesStr, setAttendeesStr] = useState("1");
+const attendees = Math.min(10, Math.max(1, parseInt(attendeesStr || "1", 10)));
+```
+
+If attendeesStr is "" parseInt gives NaN - use `|| "1"` for display... messy.
+
+**Dual state** is clearer:
+- attendees: number for API
+- attendeesInput: string for controlled field
+
+Initialize both to 1.
+
+onChange:
+```tsx
+const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
+setAttendeesInput(raw);
+if (raw === "") return;
+const n = parseInt(raw, 10);
+if (!Number.isNaN(n)) {
+  setAttendees(Math.min(10, Math.max(1, n)));
+}
+```
+
+onBlur:
+```tsx
+if (attendeesInput === "" || parseInt(attendeesInput, 10) < 1) {
+  setAttendeesInput("1");
+  setAttendees(1);
+} else {
+  const n = parseInt(attendeesInput, 10);
+  setAttendees(Math.min(10, Math.max(1, n)));
+  setAttendeesInput(String(Math.min(10, Math.max(1, n))));
+}
+```
+
+Submit uses `attendees` state - when user clears field, attendees might still be previous until blur - if they submit without blur, we should use parseInt(attendeesInput||"1"). I'll sync on submit: `const count = Math.min(10, Math.max(1, parseInt(attendeesInput || String(attendees), 10)))`.
+
+Actually simplify submit to derive from attendeesInput:
+```tsx
+const attendeeCount = (() => {
+  const n = parseInt(attendeesInput.replace(/\D/g, "") || "1", 10);
+  return Math.min(10, Math.max(1, Number.isNaN(n) ? 1 : n));
+})();
+```
+
+I'll wire attendees state updates in onChange and use attendees for submit when valid, with fallback parse on submit.
+
+Let me read the submit code again - it uses `attendees` in the body. I'll keep `attendees` in sync whenever attendeesInput has valid number, and on blur fix empty.
+
+```tsx
+const [attendeesInput, setAttendeesInput] = useState("1");
+
+// derived for submit
+const parsedAttendees = Math.min(
+  10,
+  Math.max(1, parseInt(attendeesInput.replace(/\D/g, "") || "1", 10) || 1)
+);
+```
+
+Use `parsedAttendees` in submit instead of `attendees` - but validation checks `attendees` - update validation to use parsed value.
+
+I'll remove the separate `attendees` state and only use `attendeesInput` string, then parse at submit time:
+
+```tsx
+const [attendeesInput, setAttendeesInput] = useState("1");
+
+onChange={(e) => {
+  const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
+  setAttendeesInput(raw);
+}}
+
+onBlur={() => {
+  const n = parseInt(attendeesInput || "1", 10);
+  if (Number.isNaN(n) || n < 1) {
+    setAttendeesInput("1");
+  } else {
+    setAttendeesInput(String(Math.min(10, n)));
+  }
+}}
+
+// in submit:
+const attendeeCount = Math.min(10, Math.max(1, parseInt(attendeesInput.replace(/\D/g, "") || "1", 10)));
+if (Number.isNaN(attendeeCount) || attendeeCount < 1) { ... }
+```
+
+Replace all `attendees` with `attendeeCount` computed at start of submit from attendeesInput.
+
+Remove `useState` for attendees - single attendeesInput state.
+
+Initial state "1" is fine.
+
+When rsvpStatus switches from not_attending to attending, reset to "1" if needed - actually keep previous or default to 1. I'll add `useEffect` when switching to attending: `setAttendeesInput("1")` only when coming from not attending? Or preserve - usually first time attending shows 1. Fine.
+
+When switching to not_attending we don't show the f</details></think>

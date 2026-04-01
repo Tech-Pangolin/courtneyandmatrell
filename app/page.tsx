@@ -236,6 +236,11 @@ export default function Home() {
             </div>
           </section>
 
+          <p className="nav-montserrat mx-auto mt-10 max-w-2xl px-4 text-center text-sm italic leading-relaxed text-[rgba(247,231,206,0.82)]">
+            Courtney and Matrell privately exchanged vows and are now looking forward to celebrating
+            their marriage surrounded by the people they love most.
+          </p>
+
           {/* RSVP section */}
           <section id="rsvp" className="nav-montserrat w-full">
             <div
