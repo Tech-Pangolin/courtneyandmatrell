@@ -5,16 +5,15 @@ import { CurtainIntro } from "../components/CurtainIntro";
 import { InviteCodeForm } from "../components/InviteCodeForm";
 import { RegistrationForm } from "../components/RegistrationForm";
 import { CanvasShimmer } from "../components/CanvasShimmer";
+import { RoomBlockSection } from "../components/RoomBlockSection";
 import { useEffect, useState } from "react";
+
+const HONEYFUND_URL = "https://www.honeyfund.com/site/johnson-mccray-08-08-2026";
 
 export default function Home() {
   const [inviteVerified, setInviteVerified] = useState(false);
   const [venueVisible, setVenueVisible] = useState(false);
   const [venueText, setVenueText] = useState<string | null>(null);
-  const [venmoHandle, setVenmoHandle] = useState<string | null>("CojoLLC");
-  const [venmoAmount, setVenmoAmount] = useState("");
-  const [venmoNote, setVenmoNote] = useState("");
-  const [venmoError, setVenmoError] = useState<string | null>(null);
 
   // Used after the invite code is verified to gently nudge the viewport so
   // the RSVP details come fully into view.
@@ -71,40 +70,6 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    async function loadVenmo() {
-      try {
-        const res = await fetch("/api/settings/venmo");
-        if (!res.ok) return;
-        const data = (await res.json()) as { venmoHandle?: string };
-        if (!venmoHandle && data.venmoHandle) {
-          setVenmoHandle(data.venmoHandle);
-        }
-      } catch {
-        // ignore
-      }
-    }
-    loadVenmo();
-  }, []);
-
-  const handleVenmoSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!venmoHandle) return;
-    const trimmedAmount = venmoAmount.trim();
-    if (!trimmedAmount || Number(trimmedAmount) <= 0) {
-      setVenmoError("Please enter an amount to send your toast.");
-      return;
-    }
-    setVenmoError(null);
-    const recipient = encodeURIComponent(venmoHandle);
-    const amount = encodeURIComponent(trimmedAmount);
-    const note = venmoNote ? encodeURIComponent(venmoNote) : "";
-    const url = `https://account.venmo.com/payment-link?recipients=${recipient}${
-      amount ? `&amount=${amount}&txn=pay` : ""
-    }${note ? `&note=${note}` : ""}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
   return (
     <CurtainIntro>
       <div className="flex min-h-screen flex-col">
@@ -135,6 +100,16 @@ export default function Home() {
                 onClick={scrollNavToRsvp}
               >
                 RSVP
+              </button>
+              <button
+                type="button"
+                className="hover:text-ivory"
+                onClick={() => {
+                  const section = document.getElementById("stay");
+                  if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+              >
+                Stay
               </button>
               <button
                 type="button"
@@ -261,6 +236,8 @@ export default function Home() {
             </div>
           </section>
 
+          <RoomBlockSection />
+
           {/* RSVP section */}
           <section id="rsvp" className="nav-montserrat w-full min-h-screen">
             <div
@@ -300,76 +277,49 @@ export default function Home() {
                 Your generosity will help us create lasting memories as newlyweds.
               </p>
 
-              {venmoHandle && (
-                <div className="mt-6 grid items-start gap-6 md:grid-cols-[minmax(0,2fr)_auto_minmax(0,1fr)]">
-                  <form onSubmit={handleVenmoSubmit} className="space-y-4 text-sm">
-                    <div>
-                      <label className="block text-xs font-medium uppercase tracking-[0.18em] text-[rgba(247,231,206,0.7)]">
-                        Amount
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        className="mt-1 w-full rounded-lg border border-[rgba(247,231,206,0.35)] bg-black/40 px-3 py-2 text-sm text-ivory outline-none ring-0 transition focus:border-[rgba(247,231,206,0.9)] focus:bg-black/60"
-                        value={venmoAmount}
-                        onChange={(e) => setVenmoAmount(e.target.value)}
-                        placeholder="Please enter an amount"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium uppercase tracking-[0.18em] text-[rgba(247,231,206,0.7)]">
-                        Note
-                      </label>
-                      <textarea
-                        rows={3}
-                        maxLength={280}
-                        className="mt-1 w-full rounded-lg border border-[rgba(247,231,206,0.35)] bg-black/40 px-3 py-2 text-sm text-ivory outline-none ring-0 transition focus:border-[rgba(247,231,206,0.9)] focus:bg-black/60"
-                        value={venmoNote}
-                        onChange={(e) => setVenmoNote(e.target.value)}
-                        placeholder="A toast to your forever"
-                      />
-                      <p className="mt-1 text-[0.7rem] text-[rgba(247,231,206,0.65)]">
-                        {venmoNote.length}/280 characters
-                      </p>
-                    </div>
-
-                    <button type="submit" className="btn-primary mt-2">
-                      Send Your Toast
-                    </button>
-                    {venmoError && (
-                      <p className="text-xs text-[rgba(255,161,181,0.9)]">
-                        {venmoError}
-                      </p>
-                    )}
-                  </form>
-
-                  <div className="flex h-full items-center justify-center md:justify-center">
-                    <span className="primary-script text-4xl text-ivory">OR</span>
-                  </div>
-
-                  <div className="flex flex-col items-center gap-3 md:items-start">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[rgba(247,231,206,0.7)]">
-                      Scan to send a toast
-                    </p>
-                    <div className="rounded-2xl border border-[rgba(247,231,206,0.4)] bg-black/60 p-4">
-                      <Image
-                        src="/images/qrcode.png"
-                        alt="Venmo QR code"
-                        width={160}
-                        height={160}
-                        className="h-40 w-40 object-contain"
-                      />
-                    </div>
-                  </div>
+              <div className="mt-6 grid w-full max-w-5xl grid-cols-1 gap-10 md:grid-cols-3 md:items-center md:gap-6">
+                <div className="flex w-full min-w-0 flex-col items-center text-center md:items-start md:text-left" style={{width:"80%"}}>
+                  <p className="max-w-xl text-sm text-[rgba(247,231,206,0.82)]">
+                    Our honeymoon fund and wishlist live on Honeyfund. Visit the site to contribute
+                    any amount or choose an experience from our list.
+                  </p>
+                  <a
+                    href={HONEYFUND_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary mt-8 inline-block"
+                  >
+                    Visit our Honeyfund
+                  </a>
+                  <p className="mt-4 text-[0.7rem] text-[rgba(247,231,206,0.55)]">
+                    Opens our Honeyfund page in a new tab.
+                  </p>
                 </div>
-              )}
 
-              {!venmoHandle && (
-                <p className="mt-4 text-xs text-[rgba(247,231,206,0.65)]">
-                  Venmo details will appear here once configured in the back office.
-                </p>
-              )}
+                <div className="flex items-center justify-center self-center">
+                  <span className="primary-script text-4xl text-ivory">OR</span>
+                </div>
+
+                <div className="flex flex-col items-center gap-3 self-center md:items-end md:justify-self-end">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[rgba(247,231,206,0.7)]">
+                    Scan to visit Honeyfund
+                  </p>
+                  <a
+                    href={HONEYFUND_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-2xl border border-[rgba(247,231,206,0.4)] bg-black/60 p-4 transition hover:border-[rgba(247,231,206,0.55)]"
+                  >
+                    <Image
+                      src="/images/qrcode.png"
+                      alt="QR code linking to Honeyfund"
+                      width={160}
+                      height={160}
+                      className="h-40 w-40 object-contain"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -383,7 +333,7 @@ export default function Home() {
                 A few favorite moments leading up to the celebration.
               </p>
 
-              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+              <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
                 <div className="overflow-hidden rounded-2xl border border-[rgba(247,231,206,0.25)] bg-black/60">
                   <Image
                     src="/images/couplekiss.JPG"
@@ -406,6 +356,15 @@ export default function Home() {
                   <Image
                     src="/images/coupleout.JPG"
                     alt="The couple walking out together"
+                    width={600}
+                    height={800}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-[rgba(247,231,206,0.25)] bg-black/60">
+                  <Image
+                    src="/images/coupletree.JPG"
+                    alt="The couple smiling together under a palm tree"
                     width={600}
                     height={800}
                     className="h-full w-full object-cover"
