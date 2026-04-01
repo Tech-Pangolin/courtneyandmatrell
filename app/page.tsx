@@ -237,7 +237,7 @@ export default function Home() {
           </section>
 
           {/* RSVP section */}
-          <section id="rsvp" className="nav-montserrat w-full min-h-screen">
+          <section id="rsvp" className="nav-montserrat w-full">
             <div
               id="rsvp-card"
               className="mx-auto mt-10 w-full max-w-5xl rounded-[1.4rem] bg-black/30 p-[1px] backdrop-blur-xl"
