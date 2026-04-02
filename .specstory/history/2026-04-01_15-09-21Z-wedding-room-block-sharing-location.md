@@ -3296,4 +3296,431 @@ Initial state "1" is fine.
 
 When rsvpStatus switches from not_attending to attending, reset to "1" if needed - actually keep previous or default to 1. I'll add `useEffect` when switching to attending: `setAttendeesInput("1")` only when coming from not attending? Or preserve - usually first time attending shows 1. Fine.
 
-When switching to not_attending we don't show the f</details></think>
+When switching to not_attending we don't show the field. When switching back to attending, show "1" - could reset:
+```tsx
+useEffect(() => {
+  if (rsvpStatus === "attending") {
+    setAttendeesInput((prev) => (prev === "" ? "1" : prev));
+  }
+}, [rsvpStatus]);
+```
+Not critical.
+
+I'll implement full solution with attendeesInput only.
+</details></think>
+
+_**Agent (default)**_
+
+
+Checking global styles for the RSVP form that could block touches or affect inputs:
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.css",
+  "path": "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell",
+  "pattern": "invite-input|pointer-events|touch"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell",
+  "pattern": "invite-input|pointer-events|touch",
+  "topFiles": [
+    {
+      "matchCount": 3,
+      "uri": ".\\app\\globals.css"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 3
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Let me read globals.css around invite-input
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\globals.css</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+The fix plan:
+1. Replace `type="number"` with `type="text"`, `inputMode="numeric"`, `pattern="[0-9]*"`, `autoComplete="off"` - fixes iOS Safari number input bugs
+2. Use string state for attendees input to allow natural typing without forced clamp on every keystroke from empty->1
+3. Widen tap target: `w-full sm:w-24` and `min-h-11` (44px touch target)
+4. Add `text-base` for the input to avoid iOS zoom (though with 150% html font-size text-sm might be ok - I'll add text-base anyway for this field per Apple guidelines)
+
+I'll refactor to attendeesInput string state and parse on submit + onBlur.
+
+Validation in submit:
+```tsx
+const raw = attendeesInput.replace(/\D/g, "");
+const n = parseInt(raw || "1", 10);
+const attendeeCount = Math.min(10, Math.max(1, Number.isNaN(n) ? 1 : n));
+```
+
+Update attendeesValid:
+```tsx
+const attendeeCount = ...compute from attendeesInput...
+const attendeesValid =
+  rsvpStatus === "not_attending" || (Number.isFinite(attendeeCount) && attendeeCount >= 1);
+```
+
+Actually attendeeCount is always >= 1 with Math.max(1,...)
+
+Remove old `attendees` state, use `attendeesInput` and derive for API.
+
+```tsx
+const [attendeesInput, setAttendeesInput] = useState("1");
+```
+
+onChange - allow typing:
+```tsx
+onChange={(e) => {
+  const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
+  setAttendeesInput(raw);
+}}
+```
+
+onBlur - normalize:
+```tsx
+onBlur={() => {
+  const n = parseInt(attendeesInput, 10);
+  if (attendeesInput === "" || Number.isNaN(n) || n < 1) {
+    setAttendeesInput("1");
+  } else {
+    setAttendeesInput(String(Math.min(10, n)));
+  }
+}}
+```
+
+Submit body:
+```tsx
+const rawDigits = attendeesInput.replace(/\D/g, "");
+const n = parseInt(rawDigits || "1", 10);
+const attendeeCount = Math.min(10, Math.max(1, Number.isNaN(n) ? 1 : n));
+// use attendeeCount in JSON
+```
+
+Remove `attendees` state completely.
+
+attendeesValid for attending - if empty string during typing, should we block submit? If they submit with empty, we normalize to 1:
+```tsx
+attendees: rsvpStatus === "attending" ? attendeeCount : 0,
+```
+
+Valid always if attending if we clamp.
+
+Let me also add `relative z-10` to the form or the attendees row in case something stacks wrong - speculative. I'll skip unless needed.
+
+I'll apply the RegistrationForm changes.
+</details></think>
+
+_**Agent (default)**_
+
+
+Replacing `type="number"` (problematic on iOS Safari) with a text field using `inputMode="numeric"`, string state for natural typing, and a larger tap target.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+Fix duplicate variable - I'm now computing attendeeDigits, attendeeParsed, attendeeCount inside handleSubmit but they're used before the attendeesValid check - I need to read the full handleSubmit to ensure order is correct.
+
+Actually I inserted the attendee parsing before attendeesValid - but `attendeeCount` is used in JSON - that's later in the same function, so it's in scope. Good.
+
+Wait - the attendeesValid line uses attendeeCount - and attendeeCount is defined just above. Good.
+
+Read lints - possible issue: attendeeCount used in fetch body - it's defined inside the validation block... Actually I defined it right after phoneValid and before the name checks. Let me read the full submit handler to verify variable order.
+
+Actually I put:
+```
+const attendeeDigits = attendeesInput.replace(/\D/g, "");
+const attendeeParsed = parseInt(attendeeDigits || "1", 10);
+const attendeeCount = Math.min(...);
+const attendeesValid = ...
+```
+
+Before `if (!trimmedName...)` - but wait, I inserted after phoneValid - let me read the file around that area.
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+The attendeeCount is in scope for the try block - good.
+
+One issue: when user toggles from attending to not_attending and back, attendeesInput might be stale - probably fine.
+
+Could add overflow fix on parent - the user said mobile can't enter. The `relative z-10` on the attendees wrapper might help if Deco card or grid stacking context hid touches.
+
+Also consider **CurtainIntro** `overflow-hidden` - on mobile Safari, `-webkit-overflow-scrolling` issues. Unlikely to block one specific input.
+
+Let me run build and lints.
+
+Optional: sync attendeesInput when switching rsvp to attending - if they had "not attending" the field is hidden, when switching back show "1":
+```tsx
+useEffect(() => {
+  if (rsvpStatus === "not_attending") return;
+  // when returning to attending, ensure display is valid
+}, [rsvpStatus]);
+```
+Skip for now.
+
+Read lints
+</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell\\components\\RegistrationForm.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "c:\\Users\\terra\\Projects\\CourtneyJohnson\\courtneyandmatrell\\components\\RegistrationForm.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell"; npm run build</summary>
+
+```bash
+cd "c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell"; npm run build
+```
+
+```
+
+&gt; nextjs@0.1.0 build
+&gt; next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.6s
+  Running TypeScript ...
+  Collecting page data using 23 workers ...
+  Generating static pages using 23 workers (0/12) ...
+  Generating static pages using 23 workers (3/12) 
+  Generating static pages using 23 workers (6/12) 
+  Generating static pages using 23 workers (9/12) 
+✓ Generating static pages using 23 workers (12/12) in 763.6ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/backoffice/login
+├ ƒ /api/register
+├ ƒ /api/rsvp
+├ ƒ /api/rsvp/[id]
+├ ƒ /api/rsvp/export
+├ ƒ /api/settings/venmo
+├ ƒ /api/venue
+├ ƒ /api/verify-code
+├ ○ /backoffice
+└ ƒ /backoffice/admin
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+
+All good. Summarize for user.
+</details></think>
+
+_**Agent (default)**_
+
+
+Here’s what was going wrong and what we changed.
+
+### Cause
+Mobile Safari (and some other browsers) often misbehaves with **`type="number"`** (focus, keypad, and controlled values). The field was also **`w-24`** with **`text-sm`**, which makes a small tap target and can trigger **iOS input zoom** (layout jump) that feels like the field “doesn’t work.”
+
+### Changes in `RegistrationForm.tsx`
+1. **Switched to `type="text"`** with **`inputMode="numeric"`**, **`pattern="[0-9]*"`**, and **`autoComplete="off"`** so phones show a numeric keypad without `number` input bugs.
+2. **String state `attendeesInput`** so users can type and clear digits naturally; values are **clamped 1–10 on blur** and when **submitting**.
+3. **Larger touch target:** `min-h-11`, **`text-base` on small screens** (reduces iOS zoom), **`w-full` with `max-w-[8rem]`** on mobile; **`sm:w-24 sm:text-sm`** on larger screens.
+4. **`id` / `htmlFor`** for the label, **`relative z-10`** on the wrapper so nothing stacks on top of the field, **`enterKeyHint="done"`** for the mobile keyboard.
+
+Submit still sends the same numeric `attendees` (1–10) to `/api/rsvp`.
