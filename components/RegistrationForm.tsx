@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 
 interface RegistrationFormProps {
   inviteVerified: boolean;
-  onAttendingConfirmed?: () => void;
+  onVenueRevealed?: () => void;
   onVisible?: () => void;
   onSubmitted?: () => void;
 }
 
 export function RegistrationForm({
   inviteVerified,
-  onAttendingConfirmed,
+  onVenueRevealed,
   onVisible,
   onSubmitted,
 }: RegistrationFormProps) {
@@ -109,16 +109,12 @@ export function RegistrationForm({
         throw new Error("Request failed");
       }
 
-      if (rsvpStatus === "attending") {
-        // Remember attending RSVP in a simple cookie so the venue can be revealed automatically later.
-        try {
-          document.cookie =
-            "cm_rsvp_attending=1; path=/; max-age=31536000; SameSite=Lax";
-        } catch {
-          // ignore cookie errors in non-browser environments
-        }
-        onAttendingConfirmed?.();
+      try {
+        document.cookie = "cm_rsvp_venue=1; path=/; max-age=31536000; SameSite=Lax";
+      } catch {
+        // ignore cookie errors in non-browser environments
       }
+      await onVenueRevealed?.();
 
       onSubmitted?.();
       setSubmitted(true);

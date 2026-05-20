@@ -2,7 +2,7 @@
 
 # 2026-04-01 15:09:21Z
 
-<!-- cursoride Session 52a2d6bc-3408-4548-a338-58029acb293b (2026-04-01 15:09:21Z) -->
+<!-- Cursor IDE Session 52a2d6bc-3408-4548-a338-58029acb293b (2026-04-01 15:09:21Z) -->
 
 _**User**_
 
@@ -671,7 +671,6 @@ Done.
 
 _**Agent (default)**_
 
-
 Here’s what was added:
 
 ### `components/RoomBlockSection.tsx`
@@ -957,7 +956,6 @@ Summary for user with link in markdown as they prefer.
 </details></think>
 
 _**Agent (default)**_
-
 
 Here’s what changed:
 
@@ -1396,7 +1394,6 @@ Done. Note: if qrcode.png was the old Venmo QR, scanning won't go to Honeyfund u
 
 _**Agent (default)**_
 
-
 Here’s what changed:
 
 ### Honeymoon Fund layout (`app/page.tsx`)
@@ -1581,7 +1578,6 @@ Brief summary for user.
 </details></think>
 
 _**Agent (default)**_
-
 
 Here’s what changed:
 
@@ -1803,7 +1799,6 @@ Done.
 
 _**Agent (default)**_
 
-
 Here’s what was updated:
 
 ### Three-column layout (Honeymoon Fund row)
@@ -1995,7 +1990,6 @@ Brief response.
 
 _**Agent (default)**_
 
-
 Updated the Honeyfund row to use **`md:grid-cols-3`**, so from the `md` breakpoint up each of the three columns gets **one equal third** of the row (`1fr` each). The stacked **single-column** layout on small screens is unchanged.
 
 ---
@@ -2135,7 +2129,6 @@ Done. The deco-card might still center the box - mx-auto helps center the max-w-
 </details></think>
 
 _**Agent (default)**_
-
 
 Updated the cut-off block in `RoomBlockSection.tsx`:
 
@@ -2386,7 +2379,6 @@ Done. Summarize for user.
 
 _**Agent (default)**_
 
-
 Here’s what changed:
 
 ### Photos section (`app/page.tsx`)
@@ -2413,13 +2405,6 @@ The user wants to move the RoomBlockSection (Where to stay) from its current pos
 
 Let me read the page to find exact insertion point.
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -2450,7 +2435,6 @@ Let me do the search replace.
 </details></think>
 
 _**Agent (default)**_
-
 
 Moving `RoomBlockSection` to immediately after the RSVP section.
 
@@ -2494,13 +2478,6 @@ RoomBlockSection has mt-10 - might need a bit more top margin when following RSV
 
 Consider: nav order Home, RSVP, Stay, Gift, Photos - Stay is still valid. Good.
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -2549,7 +2526,6 @@ Done. Brief summary.
 
 _**Agent (default)**_
 
-
 Update complete. **`RoomBlockSection`** (“Where to stay”) is removed from under **Event information** and rendered **right after the RSVP block** and **before Honeymoon Fund**.
 
 The **Stay** nav control still targets `#stay` on that section, so behavior is unchanged.
@@ -2568,13 +2544,6 @@ _**Agent (default)**_
 
 The user wants to remove the first photo in the photos section in app/page.tsx. Let me read the current photos section to see the first image and remove it. I may need to adjust the grid layout if we go from 4 to 3 photos.
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -2602,7 +2571,6 @@ I'll use `grid grid-cols-2 gap-4 lg:grid-cols-3` - 2 cols on small, 3 on large f
 </details></think>
 
 _**Agent (default)**_
-
 
 Removing the first image (`coupletree.JPG` is first in current file — order is couplekiss, maincouplephoto, coupleout, coupletree). "First photo" = `coupletree.JPG` is last; first in DOM = `coupletree.JPG` — checking order again:
 
@@ -2644,13 +2612,6 @@ Verify the structure - I need to make sure the first remaining div still has ope
 
 _**Agent (default)**_
 
-
-
-
-
-
-_**Agent (default)**_
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\app\page.tsx</summary>
 
@@ -2670,13 +2631,6 @@ Good - the first photo (couplekiss) was removed. Grid is now 3 columns on lg, 2 
 
 Read lints
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -2725,7 +2679,6 @@ Done
 
 _**Agent (default)**_
 
-
 The first image (`/images/couplekiss.JPG`) is removed from the Photos grid.
 
 The section now shows three images in order: **main couple photo**, **couple out**, and **coupletree**. The layout class is updated from `lg:grid-cols-4` to **`lg:grid-cols-3`** so the row stays balanced on wide screens.
@@ -2746,13 +2699,6 @@ The user wants to add a centered, italicized blurb above the RSVP section. I nee
 
 Let me read the relevant part of page.tsx.
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -2799,7 +2745,6 @@ I'll insert between event-info closing and RSVP section.
 
 _**Agent (default)**_
 
-
 Adding a centered, italic blurb between the event-info section and the RSVP section.
 
 
@@ -2827,13 +2772,6 @@ User's message didn't have a period at the end - I added one for sentence comple
 
 Read lints
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -2882,7 +2820,6 @@ Done. Summarize briefly.
 
 _**Agent (default)**_
 
-
 Inserted the blurb **between** the event details block and the RSVP block.
 
 - **Styling:** `text-center`, `italic`, `nav-montserrat`, `max-w-2xl mx-auto`, `px-4`, champagne-toned text, `mt-10` under the event-info section.
@@ -2908,7 +2845,6 @@ Let me read RegistrationForm.tsx and related styles.
 </details></think>
 
 _**Agent (default)**_
-
 
 Inspecting `RegistrationForm` for guest-count controls and anything that could block mobile input.
 
@@ -2955,13 +2891,6 @@ Actually typing "2" when value is 1: they'd replace - if they select all and typ
 
 Let me read CurtainIntro and the RSVP section in page.tsx for overflow hidden, transform, touch-action, etc.
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -3032,13 +2961,6 @@ Wait - Phone and Attendees are in a fragment `<>` with two `<div>` siblings. In 
 
 Let me read InviteCodeForm
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -3311,7 +3233,6 @@ I'll implement full solution with attendeesInput only.
 
 _**Agent (default)**_
 
-
 Checking global styles for the RSVP form that could block touches or affect inputs:
 
 
@@ -3368,13 +3289,6 @@ _**Agent (default)**_
 
 Let me read globals.css around invite-input
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -3467,7 +3381,6 @@ I'll apply the RegistrationForm changes.
 
 _**Agent (default)**_
 
-
 Replacing `type="number"` (problematic on iOS Safari) with a text field using `inputMode="numeric"`, string state for natural typing, and a larger tap target.
 
 
@@ -3557,13 +3470,6 @@ Before `if (!trimmedName...)` - but wait, I inserted after phoneValid - let me r
 
 _**Agent (default)**_
 
-
-
-
-
-
-_**Agent (default)**_
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: c:\Users\terra\Projects\CourtneyJohnson\courtneyandmatrell\components\RegistrationForm.tsx</summary>
 
@@ -3600,13 +3506,6 @@ Skip for now.
 
 Read lints
 </details></think>
-
-_**Agent (default)**_
-
-
-
-
-
 
 _**Agent (default)**_
 
@@ -3710,7 +3609,6 @@ All good. Summarize for user.
 </details></think>
 
 _**Agent (default)**_
-
 
 Here’s what was going wrong and what we changed.
 

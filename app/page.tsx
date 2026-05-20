@@ -4,6 +4,11 @@ import Image from "next/image";
 import { CurtainIntro } from "../components/CurtainIntro";
 import { InviteCodeForm } from "../components/InviteCodeForm";
 import { RegistrationForm } from "../components/RegistrationForm";
+import {
+  RsvpLookupForm,
+  RsvpLookupSuccess,
+  type LookupGuest,
+} from "../components/RsvpLookupForm";
 import { CanvasShimmer } from "../components/CanvasShimmer";
 import { RoomBlockSection } from "../components/RoomBlockSection";
 import { useEffect, useState } from "react";
@@ -12,8 +17,11 @@ const HONEYFUND_URL = "https://www.honeyfund.com/site/johnson-mccray-08-08-2026"
 
 export default function Home() {
   const [inviteVerified, setInviteVerified] = useState(false);
+  const [lookupMode, setLookupMode] = useState(false);
+  const [lookupGuests, setLookupGuests] = useState<LookupGuest[] | null>(null);
   const [venueVisible, setVenueVisible] = useState(false);
   const [venueText, setVenueText] = useState<string | null>(null);
+  const [venueTime, setVenueTime] = useState<string | null>(null);
 
   // Used after the invite code is verified to gently nudge the viewport so
   // the RSVP details come fully into view.
@@ -30,42 +38,52 @@ export default function Home() {
     const offset = window.scrollY + rect.top - 80;
     window.scrollTo({ top: offset, behavior: "smooth" });
   };
-  const scrollToEventInfo = () => {
+  const scrollToVenueInfo = () => {
     setTimeout(() => {
       const section = document.getElementById("event-info");
       if (!section) return;
       const rect = section.getBoundingClientRect();
       const offset = window.scrollY + rect.top - 80;
       window.scrollTo({ top: offset, behavior: "smooth" });
-    }, 2000);
+    }, 800);
   };
 
-  const handleAttendingConfirmed = async () => {
-    if (!venueText) {
-      try {
-        const res = await fetch("/api/venue");
-        if (res.ok) {
-          const data = (await res.json()) as { name?: string; address?: string };
-          if (data.name || data.address) {
-            const combined = [data.name, data.address].filter(Boolean).join(" · ");
-            setVenueText(combined);
-          }
-        }
-      } catch {
-        // fail silently; just don't show venue text
+  const revealVenue = async () => {
+    try {
+      const res = await fetch("/api/venue");
+      if (res.ok) {
+        const data = (await res.json()) as {
+          name?: string;
+          address?: string;
+          time?: string;
+        };
+        const location = [data.name, data.address].filter(Boolean).join(" · ");
+        if (location) setVenueText(location);
+        if (data.time?.trim()) setVenueTime(data.time.trim());
       }
+    } catch {
+      // fail silently; just don't show venue text
     }
     setVenueVisible(true);
   };
 
+  const handleLookupSuccess = async (guests: LookupGuest[]) => {
+    setLookupGuests(guests);
+    await revealVenue();
+    scrollToVenueInfo();
+  };
+
   useEffect(() => {
-    // If the user has already RSVP'd as attending before, show the venue automatically.
     if (typeof document !== "undefined") {
-      const hasCookie = document.cookie
+      const hasVenueCookie = document.cookie
         .split(";")
-        .some((c) => c.trim().startsWith("cm_rsvp_attending=1"));
-      if (hasCookie) {
-        handleAttendingConfirmed();
+        .some(
+          (c) =>
+            c.trim().startsWith("cm_rsvp_venue=1") ||
+            c.trim().startsWith("cm_rsvp_attending=1")
+        );
+      if (hasVenueCookie) {
+        revealVenue();
       }
     }
   }, []);
@@ -197,7 +215,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Event information: date, city, dress code */}
+          {/* Event information: date, location & time, dress code */}
           <section
             id="event-info"
             className="nav-montserrat mx-auto mt-6 w-full max-w-5xl border-t border-[rgba(247,231,206,0.12)] pt-6 text-center text-sm text-[rgba(247,231,206,0.78)]"
@@ -211,20 +229,22 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-[rgba(247,231,206,0.6)]">
-                  City
+                  Location &amp; Time
                 </p>
-               
-                {!venueVisible && (<>
-                  <p className="mt-0.5 text-[0.78rem] text-[rgba(247,231,206,0.6)]">
-                    Venue details revealed after login.
-                  </p> 
-                  <p className="mt-1">Charleston, South Carolina</p>
+
+                {!venueVisible && (
+                  <>
+                    <p className="mt-0.5 text-[0.78rem] text-[rgba(247,231,206,0.6)]">
+                      Venue details revealed after login.
+                    </p>
+                    <p className="mt-1">Charleston, South Carolina</p>
                   </>
                 )}
-                {venueVisible && venueText && (
-                  <p className="mt-0.5 text-[0.78rem] text-[rgba(247,231,206,0.9)] transition-all duration-700 ease-out opacity-100 translate-y-0">
-                    {venueText}
-                  </p>
+                {venueVisible && (venueText || venueTime) && (
+                  <div className="mt-0.5 text-[0.78rem] text-[rgba(247,231,206,0.9)] transition-all duration-700 ease-out opacity-100 translate-y-0">
+                    {venueText && <p>{venueText}</p>}
+                    {venueTime && <p className={venueText ? "mt-1" : ""}>{venueTime}</p>}
+                  </div>
                 )}
               </div>
               <div>
@@ -254,14 +274,38 @@ export default function Home() {
                   private details will appear.
                 </p>
 
-                <InviteCodeForm onVerified={() => setInviteVerified(true)} />
+                {!lookupMode && !lookupGuests && (
+                  <>
+                    <InviteCodeForm onVerified={() => setInviteVerified(true)} />
+                    <p className="mt-4 text-center text-sm text-[rgba(247,231,206,0.78)]">
+                      <button
+                        type="button"
+                        className="text-[rgba(247,231,206,0.9)] underline-offset-2 hover:text-ivory hover:underline"
+                        onClick={() => setLookupMode(true)}
+                      >
+                        Already RSVP&apos;d? Click here to view venue information
+                      </button>
+                    </p>
+                  </>
+                )}
 
-                <RegistrationForm
-                  inviteVerified={inviteVerified}
-                  onAttendingConfirmed={handleAttendingConfirmed}
-                  onVisible={scrollToRsvpCard}
-                  onSubmitted={scrollToEventInfo}
-                />
+                {lookupMode && !lookupGuests && (
+                  <RsvpLookupForm
+                    onSuccess={handleLookupSuccess}
+                    onBack={() => setLookupMode(false)}
+                  />
+                )}
+
+                {lookupGuests && <RsvpLookupSuccess guests={lookupGuests} />}
+
+                {!lookupMode && (
+                  <RegistrationForm
+                    inviteVerified={inviteVerified}
+                    onVenueRevealed={revealVenue}
+                    onVisible={scrollToRsvpCard}
+                    onSubmitted={scrollToVenueInfo}
+                  />
+                )}
               </div>
             </div>
           </section>
@@ -283,7 +327,7 @@ export default function Home() {
               </p>
 
               <div className="mt-6 grid w-full max-w-5xl grid-cols-1 gap-10 md:grid-cols-3 md:items-center md:gap-6">
-                <div className="flex w-full min-w-0 flex-col items-center text-center md:items-start md:text-left" style={{width:"80%"}}>
+                <div className="flex w-full min-w-0 flex-col items-center text-center md:items-start md:text-left">
                   <p className="max-w-xl text-sm text-[rgba(247,231,206,0.82)]">
                     Our honeymoon fund and wishlist live on Honeyfund. Visit the site to contribute
                     any amount or choose an experience from our list.
